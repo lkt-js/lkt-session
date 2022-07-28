@@ -1,6 +1,8 @@
 import { ILktObject } from "lkt-tools";
-export { setSessionProp, getSessionProp, removeSessionProp } from "./functions/functions";
-declare const LktHttp: {
-    install: (app: any, options: ILktObject) => void;
+import { App } from "vue";
+export { setSessionProp, getSessionProp, removeSessionProp, } from "./functions/functions";
+export { setCookie, removeCookie, getCookie } from "./functions/functions-cookies";
+declare const LktSession: {
+    install: (app: App, options: ILktObject) => void;
 };
-export default LktHttp;
+export default LktSession;

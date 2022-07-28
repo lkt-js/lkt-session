@@ -2,11 +2,11 @@ import {Settings} from "../settings/Settings";
 import {getLocalStorageProp, removeLocalStorageProp, setLocalStorageProp} from "./functions-storage";
 import {getCookie, removeCookie, setCookie} from "./functions-cookies";
 
-export const setSessionProp = (name: string, value: any, expires: number = null) => {
+export const setSessionProp = (name: string, value: any, expiresInSeconds: number = null) => {
     if (Settings.SUPPORTS_LOCAL_STORAGE) {
-        return setLocalStorageProp(name, value, expires);
+        return setLocalStorageProp(name, value, expiresInSeconds);
     }
-    return setCookie(name, String(value), expires);
+    return setCookie(name, String(value), expiresInSeconds);
 }
 
 export const getSessionProp = (name: string) => {

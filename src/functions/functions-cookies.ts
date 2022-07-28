@@ -1,9 +1,12 @@
-export const setCookie = (name: string, value: string, expires: number = null): void => {
+import {getOneYearInSeconds, secondsToMilliseconds} from "lkt-tools";
+
+export const setCookie = (name: string, value: string, expiresInSeconds: number = null): void => {
     let d = new Date();
-    if (!expires) {
-        expires = d.getTime() + (365 * 24 * 60 * 60 * 1000);
+    if (!expiresInSeconds) {
+        expiresInSeconds = getOneYearInSeconds();
     }
-    d.setTime(expires);
+    let time = d.getTime() + secondsToMilliseconds(expiresInSeconds);
+    d.setTime(time);
     let expiresStr = "expires=" + d.toUTCString();
     document.cookie = name + '=' + value + ', ' + expiresStr;
 }

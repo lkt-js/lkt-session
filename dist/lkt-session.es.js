@@ -1,44 +1,50 @@
-import { isNumeric as S, time as c, isDate as a, supportsLocalStorage as u } from "lkt-tools";
+import { isNumeric as c, time as g, secondsToMilliseconds as l, isString as u, getOneYearInSeconds as O, supportsLocalStorage as p } from "lkt-tools";
 class s {
 }
 s.SUPPORTS_LOCAL_STORAGE = !1;
-const g = (e, t, o = null) => {
+const P = (e, t, o = null) => {
   let r = { value: t, expires: null };
-  S(o) && (r.expires = new Date(c() + o * 1e4)), localStorage.setItem(e, JSON.stringify(r));
-}, p = (e) => {
+  !!o && c(o) && (r.expires = new Date(g() + l(o)).toString()), localStorage.setItem(e, JSON.stringify(r));
+}, L = (e) => {
   let t = JSON.parse(localStorage.getItem(e));
-  if (!!t) {
-    if (a(t.expires) && t.expires < new Date()) {
-      i(e);
-      return;
-    }
-    return t.value;
+  if (!t)
+    return;
+  let o = u(t.expires) && t.expires.length > 0, r;
+  if (o && (r = new Date(t.expires)) && r < new Date()) {
+    n(e);
+    return;
   }
-}, i = (e) => localStorage.removeItem(e), l = (e, t, o = null) => {
+  return t.value;
+}, n = (e) => localStorage.removeItem(e), a = (e, t, o = null) => {
   let r = new Date();
-  o || (o = r.getTime() + 365 * 24 * 60 * 60 * 1e3), r.setTime(o);
-  let n = "expires=" + r.toUTCString();
-  document.cookie = e + "=" + t + ", " + n;
-}, O = (e) => {
+  o || (o = O());
+  let i = r.getTime() + l(o);
+  r.setTime(i);
+  let S = "expires=" + r.toUTCString();
+  document.cookie = e + "=" + t + ", " + S;
+}, f = (e) => {
   let t = e + "=", o = document.cookie.split(";");
   for (let r = 0; r < o.length; r++) {
-    let n = o[r];
-    for (; n.charAt(0) == " "; )
-      n = n.substring(1);
-    if (n.indexOf(t) == 0)
-      return n.substring(t.length, n.length);
+    let i = o[r];
+    for (; i.charAt(0) == " "; )
+      i = i.substring(1);
+    if (i.indexOf(t) == 0)
+      return i.substring(t.length, i.length);
   }
   return "";
-}, P = (e) => {
-  l(e, "", -1);
-}, f = (e, t, o = null) => s.SUPPORTS_LOCAL_STORAGE ? g(e, t, o) : l(e, String(t), o), T = (e) => s.SUPPORTS_LOCAL_STORAGE ? p(e) : O(e), m = (e) => s.SUPPORTS_LOCAL_STORAGE ? i(e) : P(e), A = {
+}, T = (e) => {
+  a(e, "", -1);
+}, A = (e, t, o = null) => s.SUPPORTS_LOCAL_STORAGE ? P(e, t, o) : a(e, String(t), o), R = (e) => s.SUPPORTS_LOCAL_STORAGE ? L(e) : f(e), _ = (e) => s.SUPPORTS_LOCAL_STORAGE ? n(e) : T(e), C = {
   install: (e, t) => {
-    s.SUPPORTS_LOCAL_STORAGE = u();
+    s.SUPPORTS_LOCAL_STORAGE = p();
   }
 };
 export {
-  A as default,
-  T as getSessionProp,
-  m as removeSessionProp,
-  f as setSessionProp
+  C as default,
+  f as getCookie,
+  R as getSessionProp,
+  T as removeCookie,
+  _ as removeSessionProp,
+  a as setCookie,
+  A as setSessionProp
 };

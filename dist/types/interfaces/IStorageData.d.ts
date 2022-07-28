@@ -1,4 +1,4 @@
 export interface IStorageData {
     value: any;
-    expires?: Date;
+    expires: string;
 }

@@ -1,13 +1,13 @@
 import {IStorageData} from "../interfaces/IStorageData";
-//@ts-ignore
-import {isNumeric, isDate, time} from "lkt-tools";
+import {isNumeric, isString, secondsToMilliseconds, time} from "lkt-tools";
 
-export const setLocalStorageProp = (name: string, value: any, expires: number = null) => {
+export const setLocalStorageProp = (name: string, value: any, expiresInSeconds: number = null) => {
     let data: IStorageData = {value: value, expires: null};
 
-    if (isNumeric(expires)) {
-        data.expires = new Date(time() + expires * 10000);
+    if (!!expiresInSeconds && isNumeric(expiresInSeconds)) {
+        data.expires = (new Date(time() + secondsToMilliseconds(expiresInSeconds))).toString();
     }
+
     localStorage.setItem(name, JSON.stringify(data));
 }
 
@@ -18,7 +18,10 @@ export const getLocalStorageProp = (name: string) => {
         return undefined;
     }
 
-    if (isDate(cached.expires) && cached.expires < new Date()) {
+    let hasDate = isString(cached.expires) && cached.expires.length > 0;
+    let date;
+
+    if (hasDate && (date = new Date(cached.expires)) && date < new Date()) {
         removeLocalStorageProp(name);
         return undefined;
     }
