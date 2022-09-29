@@ -20,7 +20,7 @@ export default {
         outDir,
         minify: true,
         rollupOptions: {
-            external: [ 'lkt-tools' ],
+            external: [ 'lkt-tools', 'lkt-string-tools', 'lkt-date-tools', 'lkt-control-tools' ],
             output: {
                 globals: {
                     "lkt-tools": 'LktTools'

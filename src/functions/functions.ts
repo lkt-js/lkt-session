@@ -1,24 +1,13 @@
 import {Settings} from "../settings/Settings";
-import {getLocalStorageProp, removeLocalStorageProp, setLocalStorageProp} from "./functions-storage";
-import {getCookie, removeCookie, setCookie} from "./functions-cookies";
+import {InstallOptions} from "../types/InstallOptions";
+import {HasCookiesFallback} from "../value-objects/HasCookiesFallback";
+import {supportsLocalStorage, supportsSessionStorage} from "./functionss-navigator";
 
-export const setSessionProp = (name: string, value: any, expiresInSeconds: number = null) => {
-    if (Settings.SUPPORTS_LOCAL_STORAGE) {
-        return setLocalStorageProp(name, value, expiresInSeconds);
-    }
-    return setCookie(name, String(value), expiresInSeconds);
-}
+export const configureLktSession = (options?: InstallOptions) => {
+    Settings.SUPPORTS_LOCAL_STORAGE = supportsLocalStorage();
+    Settings.SUPPORTS_SESSION_STORAGE = supportsSessionStorage();
 
-export const getSessionProp = (name: string) => {
-    if (Settings.SUPPORTS_LOCAL_STORAGE) {
-        return getLocalStorageProp(name);
+    if (typeof options === 'object' && typeof options.cookiesFallback === 'boolean') {
+        Settings.COOKIE_FALLBACK = new HasCookiesFallback(options.cookiesFallback);
     }
-    return getCookie(name);
-}
-
-export const removeSessionProp = (name: string) => {
-    if (Settings.SUPPORTS_LOCAL_STORAGE) {
-        return removeLocalStorageProp(name);
-    }
-    return removeCookie(name);
 }

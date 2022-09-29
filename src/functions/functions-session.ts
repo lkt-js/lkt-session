@@ -4,14 +4,14 @@ import {Settings} from "../settings/Settings";
 import { StoredData } from '../types/StoredData';
 import {getCookie, removeCookie, setCookie} from "./functions-cookies";
 
-export const setLocalStorage = (
+export const setSessionStorage = (
   name: string,
   value: any,
   expiresInSeconds?: number
 ) => {
-  if (!Settings.SUPPORTS_LOCAL_STORAGE) {
+  if (!Settings.SUPPORTS_SESSION_STORAGE) {
     if (!Settings.COOKIE_FALLBACK.enabled()) {
-      throw new Error(`Browser doesn't support localStorage and cookies fallback is disabled`);
+      throw new Error(`Browser doesn't support sessionStorage and cookies fallback is disabled`);
     }
     return setCookie(name, value, expiresInSeconds);
   }
@@ -23,17 +23,17 @@ export const setLocalStorage = (
     ).toString();
   }
 
-  localStorage.setItem(name, JSON.stringify(data));
+  sessionStorage.setItem(name, JSON.stringify(data));
 };
 
-export const getLocalStorage = (name: string) => {
-  if (!Settings.SUPPORTS_LOCAL_STORAGE) {
+export const getSessionStorage = (name: string) => {
+  if (!Settings.SUPPORTS_SESSION_STORAGE) {
     if (!Settings.COOKIE_FALLBACK.enabled()) {
-      throw new Error(`Browser doesn't support localStorage and cookies fallback is disabled`);
+      throw new Error(`Browser doesn't support sessionStorage and cookies fallback is disabled`);
     }
     return getCookie(name);
   }
-  const cached: StoredData = JSON.parse(localStorage.getItem(name));
+  const cached: StoredData = JSON.parse(sessionStorage.getItem(name));
 
   if (!cached) {
     return undefined;
@@ -44,19 +44,19 @@ export const getLocalStorage = (name: string) => {
   let date;
 
   if (hasDate && (date = new Date(cached.expires)) && date < new Date()) {
-    removeLocalStorage(name);
+    removeSessionStorage(name);
     return undefined;
   }
 
   return cached.value;
 };
 
-export const removeLocalStorage = (name: string) => {
-  if (!Settings.SUPPORTS_LOCAL_STORAGE) {
+export const removeSessionStorage = (name: string) => {
+  if (!Settings.SUPPORTS_SESSION_STORAGE) {
     if (!Settings.COOKIE_FALLBACK.enabled()) {
-      throw new Error(`Browser doesn't support localStorage and cookies fallback is disabled`);
+      throw new Error(`Browser doesn't support sessionStorage and cookies fallback is disabled`);
     }
     return removeCookie(name);
   }
-  return localStorage.removeItem(name);
+  return sessionStorage.removeItem(name);
 };

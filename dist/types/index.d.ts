@@ -1,8 +1,11 @@
-import { ILktObject } from "lkt-tools";
-import { App } from "vue";
-export { setSessionProp, getSessionProp, removeSessionProp, } from "./functions/functions";
-export { setCookie, removeCookie, getCookie } from "./functions/functions-cookies";
+import { App } from 'vue';
+import { configureLktSession } from './functions/functions';
+import { InstallOptions } from './types/InstallOptions';
+export { getCookie, removeCookie, setCookie, } from './functions/functions-cookies';
+export { getSessionStorage, removeSessionStorage, setSessionStorage, } from './functions/functions-session';
+export { getLocalStorage, removeLocalStorage, setLocalStorage, } from './functions/functions-storage';
+export { configureLktSession };
 declare const LktSession: {
-    install: (app: App, options: ILktObject) => void;
+    install: (app: App, options: InstallOptions) => void;
 };
 export default LktSession;

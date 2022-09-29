@@ -1,31 +1,42 @@
-import {getOneYearInSeconds, secondsToMilliseconds} from "lkt-tools";
+import { getOneYearInSeconds, secondsToMilliseconds } from 'lkt-date-tools';
+import { trim } from 'lkt-string-tools';
 
-export const setCookie = (name: string, value: string, expiresInSeconds: number = null): void => {
-    let d = new Date();
-    if (!expiresInSeconds) {
-        expiresInSeconds = getOneYearInSeconds();
-    }
-    let time = d.getTime() + secondsToMilliseconds(expiresInSeconds);
-    d.setTime(time);
-    let expiresStr = "expires=" + d.toUTCString();
-    document.cookie = name + '=' + value + ', ' + expiresStr;
-}
+export const setCookie = (
+  name: string,
+  value: string,
+  expiresInSeconds?: number
+): void => {
+  const d = new Date();
+  if (!expiresInSeconds) {
+    expiresInSeconds = getOneYearInSeconds();
+  }
+  const time = d.getTime() + secondsToMilliseconds(expiresInSeconds);
+  d.setTime(time);
+  const expiresStr = `expires=${d.toUTCString()}`;
+  document.cookie = `${name}=${value}, ${expiresStr}`;
+};
 
 export const getCookie = (name: string): string => {
-    let N = name + "=";
-    let ca = document.cookie.split(';');
-    for (let i = 0; i < ca.length; i++) {
-        let c = ca[i];
-        while (c.charAt(0) == ' ') {
-            c = c.substring(1);
-        }
-        if (c.indexOf(N) == 0) {
-            return c.substring(N.length, c.length);
-        }
+  const N = `${name}=`;
+  const ca = document.cookie.split(',');
+  const expiresSplit = document.cookie.split('expires=');
+  const expires = trim(expiresSplit[1]);
+  let date = new Date(expires);
+
+  if (expires && (date = new Date(expires)) && date < new Date()) {
+    removeCookie(name);
+    return undefined;
+  }
+  
+  for (let i = 0; i < ca.length; i++) {
+    const c = trim(ca[i]);
+    if (c.indexOf(N) == 0) {
+      return c.substring(N.length, c.length);
     }
-    return '';
-}
+  }
+  return '';
+};
 
 export const removeCookie = (name: string): void => {
-    setCookie(name, '', -1);
-}
+  setCookie(name, '', -1);
+};

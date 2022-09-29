@@ -1,19 +1,30 @@
-import {ILktObject, supportsLocalStorage} from "lkt-tools";
-import {Settings} from "./settings/Settings";
-import {App} from "vue";
+import { App } from 'vue';
+
+import { configureLktSession } from './functions/functions';
+import { InstallOptions } from './types/InstallOptions';
 
 export {
-    setSessionProp,
-    getSessionProp,
-    removeSessionProp,
-} from "./functions/functions";
+  getCookie,
+  removeCookie,
+  setCookie,
+} from './functions/functions-cookies';
+export {
+  getSessionStorage,
+  removeSessionStorage,
+  setSessionStorage,
+} from './functions/functions-session';
+export {
+  getLocalStorage,
+  removeLocalStorage,
+  setLocalStorage,
+} from './functions/functions-storage';
 
-export {setCookie, removeCookie, getCookie} from "./functions/functions-cookies"
+export { configureLktSession };
 
 const LktSession = {
-    install: (app: App, options: ILktObject) => {
-        Settings.SUPPORTS_LOCAL_STORAGE = supportsLocalStorage();
-    },
+  install: (app: App, options: InstallOptions) => {
+    configureLktSession(options);
+  },
 };
 
 export default LktSession;
