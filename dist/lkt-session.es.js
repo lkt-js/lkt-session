@@ -1,7 +1,11 @@
-import { getOneYearInSeconds as p, secondsToMilliseconds as S, time as f } from "lkt-date-tools";
-import { trim as O } from "lkt-string-tools";
-class d {
+var L = Object.defineProperty;
+var A = (e, t, o) => t in e ? L(e, t, { enumerable: !0, configurable: !0, writable: !0, value: o }) : e[t] = o;
+var i = (e, t, o) => (A(e, typeof t != "symbol" ? t + "" : t, o), o);
+import { getOneYearInSeconds as w, secondsToMilliseconds as S, time as d } from "lkt-date-tools";
+import { trim as g } from "lkt-string-tools";
+class u {
   constructor(t) {
+    i(this, "value");
     t || (t = !0), this.value = t;
   }
   enabled() {
@@ -10,10 +14,8 @@ class d {
 }
 class r {
 }
-r.SUPPORTS_LOCAL_STORAGE = !1;
-r.SUPPORTS_SESSION_STORAGE = !1;
-r.COOKIE_FALLBACK = new d();
-const L = () => {
+i(r, "SUPPORTS_LOCAL_STORAGE", !1), i(r, "SUPPORTS_SESSION_STORAGE", !1), i(r, "COOKIE_FALLBACK", new u());
+const b = () => {
   let e = 1;
   if (typeof localStorage == "object")
     try {
@@ -24,7 +26,7 @@ const L = () => {
   else
     e = -1;
   return e === 1;
-}, A = () => {
+}, E = () => {
   let e = 1;
   if (typeof sessionStorage == "object")
     try {
@@ -35,45 +37,45 @@ const L = () => {
   else
     e = -1;
   return e === 1;
-}, w = (e) => {
-  r.SUPPORTS_LOCAL_STORAGE = L(), r.SUPPORTS_SESSION_STORAGE = A(), typeof e == "object" && typeof e.cookiesFallback == "boolean" && (r.COOKIE_FALLBACK = new d(e.cookiesFallback));
-}, c = (e, t, o) => {
+}, _ = (e) => {
+  r.SUPPORTS_LOCAL_STORAGE = b(), r.SUPPORTS_SESSION_STORAGE = E(), typeof e == "object" && typeof e.cookiesFallback == "boolean" && (r.COOKIE_FALLBACK = new u(e.cookiesFallback));
+}, O = (e, t, o) => {
   const s = new Date();
-  o || (o = p());
+  o || (o = w());
   const a = s.getTime() + S(o);
   s.setTime(a);
-  const i = `expires=${s.toUTCString()}`;
-  document.cookie = `${e}=${t}, ${i}`;
-}, u = (e) => {
-  const t = `${e}=`, o = document.cookie.split(","), s = document.cookie.split("expires="), a = O(s[1]);
-  let i = new Date(a);
-  if (a && (i = new Date(a)) && i < new Date()) {
-    g(e);
+  const n = `expires=${s.toUTCString()}`;
+  document.cookie = `${e}=${t}, ${n}`;
+}, p = (e) => {
+  const t = `${e}=`, o = document.cookie.split(","), s = document.cookie.split("expires="), a = g(s[1]);
+  let n = new Date(a);
+  if (a && (n = new Date(a)) && n < new Date()) {
+    f(e);
     return;
   }
-  for (let n = 0; n < o.length; n++) {
-    const l = O(o[n]);
-    if (l.indexOf(t) == 0)
-      return l.substring(t.length, l.length);
+  for (let l = 0; l < o.length; l++) {
+    const c = g(o[l]);
+    if (c.indexOf(t) == 0)
+      return c.substring(t.length, c.length);
   }
   return "";
-}, g = (e) => {
-  c(e, "", -1);
-}, C = (e, t, o) => {
+}, f = (e) => {
+  O(e, "", -1);
+}, R = (e, t, o) => {
   if (!r.SUPPORTS_SESSION_STORAGE) {
     if (!r.COOKIE_FALLBACK.enabled())
       throw new Error("Browser doesn't support sessionStorage and cookies fallback is disabled");
-    return c(e, t, o);
+    return O(e, t, o);
   }
   const s = { value: t, expires: null };
   !!o && typeof o == "number" && (s.expires = new Date(
-    f() + S(o)
+    d() + S(o)
   ).toString()), sessionStorage.setItem(e, JSON.stringify(s));
-}, T = (e) => {
+}, h = (e) => {
   if (!r.SUPPORTS_SESSION_STORAGE) {
     if (!r.COOKIE_FALLBACK.enabled())
       throw new Error("Browser doesn't support sessionStorage and cookies fallback is disabled");
-    return u(e);
+    return p(e);
   }
   const t = JSON.parse(sessionStorage.getItem(e));
   if (!t)
@@ -81,32 +83,32 @@ const L = () => {
   const o = typeof t.expires == "string" && t.expires.length > 0;
   let s;
   if (o && (s = new Date(t.expires)) && s < new Date()) {
-    b(e);
+    k(e);
     return;
   }
   return t.value;
-}, b = (e) => {
+}, k = (e) => {
   if (!r.SUPPORTS_SESSION_STORAGE) {
     if (!r.COOKIE_FALLBACK.enabled())
       throw new Error("Browser doesn't support sessionStorage and cookies fallback is disabled");
-    return g(e);
+    return f(e);
   }
   return sessionStorage.removeItem(e);
-}, m = (e, t, o) => {
+}, I = (e, t, o) => {
   if (!r.SUPPORTS_LOCAL_STORAGE) {
     if (!r.COOKIE_FALLBACK.enabled())
       throw new Error("Browser doesn't support localStorage and cookies fallback is disabled");
-    return c(e, t, o);
+    return O(e, t, o);
   }
   const s = { value: t, expires: null };
   !!o && typeof o == "number" && (s.expires = new Date(
-    f() + S(o)
+    d() + S(o)
   ).toString()), localStorage.setItem(e, JSON.stringify(s));
-}, P = (e) => {
+}, K = (e) => {
   if (!r.SUPPORTS_LOCAL_STORAGE) {
     if (!r.COOKIE_FALLBACK.enabled())
       throw new Error("Browser doesn't support localStorage and cookies fallback is disabled");
-    return u(e);
+    return p(e);
   }
   const t = JSON.parse(localStorage.getItem(e));
   if (!t)
@@ -114,32 +116,32 @@ const L = () => {
   const o = typeof t.expires == "string" && t.expires.length > 0;
   let s;
   if (o && (s = new Date(t.expires)) && s < new Date()) {
-    E(e);
+    C(e);
     return;
   }
   return t.value;
-}, E = (e) => {
+}, C = (e) => {
   if (!r.SUPPORTS_LOCAL_STORAGE) {
     if (!r.COOKIE_FALLBACK.enabled())
       throw new Error("Browser doesn't support localStorage and cookies fallback is disabled");
-    return g(e);
+    return f(e);
   }
   return localStorage.removeItem(e);
-}, R = {
+}, B = {
   install: (e, t) => {
-    w(t);
+    _(t);
   }
 };
 export {
-  w as configureLktSession,
-  R as default,
-  u as getCookie,
-  P as getLocalStorage,
-  T as getSessionStorage,
-  g as removeCookie,
-  E as removeLocalStorage,
-  b as removeSessionStorage,
-  c as setCookie,
-  m as setLocalStorage,
-  C as setSessionStorage
+  _ as configureLktSession,
+  B as default,
+  p as getCookie,
+  K as getLocalStorage,
+  h as getSessionStorage,
+  f as removeCookie,
+  C as removeLocalStorage,
+  k as removeSessionStorage,
+  O as setCookie,
+  I as setLocalStorage,
+  R as setSessionStorage
 };

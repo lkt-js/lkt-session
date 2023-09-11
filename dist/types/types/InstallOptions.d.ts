@@ -1,3 +1,3 @@
-export declare type InstallOptions = {
+export type InstallOptions = {
     cookiesFallback: boolean;
 };

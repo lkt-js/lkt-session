@@ -1,4 +1,4 @@
-export declare type StoredData = {
+export type StoredData = {
     value: any;
     expires?: string;
 };
