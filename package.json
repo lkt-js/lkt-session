@@ -1,7 +1,7 @@
 {
   "name": "lkt-session",
-  "version": "1.0.4",
-  "description": "",
+  "version": "1.0.5",
+  "description": "Cookies, Session Storage and Local Storage tools",
   "main": "src/index.ts",
   "module": "src/index.ts",
   "files": [
@@ -26,14 +26,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://Lekrat@gitlab.com/lkt-ui/lkt-http.git"
+    "url": "git+https://github.com/lkt-js/lkt-session.git"
   },
   "author": "Antonio Ibáñez",
   "license": "MIT",
   "bugs": {
-    "url": "https://gitlab.com/lkt-ui/lkt-http/issues"
+    "url": "https://github.com/lkt-js/lkt-session/issues"
   },
-  "homepage": "https://gitlab.com/lkt-ui/lkt-http#readme",
+  "homepage": "https://github.com/lkt-js/lkt-session#readme",
   "devDependencies": {
     "@babel/core": "^7.13.13",
     "@babel/preset-env": "^7.13.12",
