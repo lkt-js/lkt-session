@@ -16,7 +16,7 @@ export const setCookie = (
   document.cookie = `${name}=${value}, ${expiresStr}`;
 };
 
-export const getCookie = (name: string): string => {
+export const getCookie = (name: string): string|undefined => {
   const N = `${name}=`;
   const ca = document.cookie.split(',');
   const expiresSplit = document.cookie.split('expires=');

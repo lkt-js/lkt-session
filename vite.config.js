@@ -1,7 +1,7 @@
 import { resolve } from 'path';
 
 const src = resolve(__dirname, 'src');
-const outDir = resolve(__dirname, 'dist');
+const outDir = resolve(__dirname, 'build');
 const test = resolve(__dirname, 'test');
 const snapshots = resolve(__dirname, 'snapshots');
 
@@ -14,7 +14,7 @@ export default {
     lib: {
       entry: `${src}/index.ts`,
       name: 'LktSession',
-      fileName: (format) => `lkt-session.${format}.js`,
+      formats: ['es']
     },
     outDir,
     minify: true,

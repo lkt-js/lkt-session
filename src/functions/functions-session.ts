@@ -15,7 +15,7 @@ export const setSessionStorage = (
     }
     return setCookie(name, value, expiresInSeconds);
   }
-  const data: StoredData = { value, expires: null };
+  const data: StoredData = { value, expires: undefined };
 
   if (!!expiresInSeconds && typeof expiresInSeconds === 'number') {
     data.expires = new Date(
@@ -33,6 +33,7 @@ export const getSessionStorage = (name: string) => {
     }
     return getCookie(name);
   }
+  //@ts-ignore
   const cached: StoredData = JSON.parse(sessionStorage.getItem(name));
 
   if (!cached) {
@@ -43,6 +44,7 @@ export const getSessionStorage = (name: string) => {
     typeof cached.expires === 'string' && cached.expires.length > 0;
   let date;
 
+  //@ts-ignore
   if (hasDate && (date = new Date(cached.expires)) && date < new Date()) {
     removeSessionStorage(name);
     return undefined;
